@@ -1,0 +1,39 @@
+{
+  "name": "eleventy-starter",
+  "version": "1.0.0",
+  "description": "Eleventy lazy person starter setup",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit || echo '** NOT COMMITTED: Build issues! **'",
+      "pre-push": "git diff --quiet || echo '** NOT PUSHED: Uncommitted changes! **'"
+    }
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "npx eleventy",
+    "build-production": "PRODUCTION=true npx eleventy",
+    "clean": "echo 'rm -rf dist/*  # (but not really, at least yet)'",
+    "lint": "run-p lint:md-all lint:js",
+    "lint:js": "eslint --quiet .",
+    "lint:md-diff": "git diff-tree --no-commit-id --name-only -r HEAD -- '*.md' | xargs -I FILE npx markdown-link-check FILE",
+    "lint:md-all": "git ls-files '*.md' | xargs -I FILE npx markdown-link-check -q FILE",
+    "pre-commit": "run-p lint:js lint:md-diff build",
+    "start": "npx eleventy --serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dave Methvin",
+  "license": "CC0-1.0",
+  "repository": "",
+  "dependencies": {
+    "uswds": "^2.0.0"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^0.7.1",
+    "eslint": "^5.16.0",
+    "html-minifier": "^4.0.0",
+    "husky": "^1.3.1",
+    "markdown-it-anchor": "^5.0.2",
+    "markdown-link-check": "3.7.2",
+    "npm-run-all": "^4.1.5"
+  }
+}
