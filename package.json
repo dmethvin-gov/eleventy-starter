@@ -23,7 +23,10 @@
   },
   "author": "Dave Methvin",
   "license": "CC0-1.0",
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmethvin-gov/eleventy-starter.git"
+  },
   "dependencies": {
     "uswds": "^2.0.0"
   },
