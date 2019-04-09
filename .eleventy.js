@@ -51,7 +51,6 @@ module.exports = function(eleventyConfig) {
         });
         return minified;
       }
-
       return content;
     });
   }
@@ -61,7 +60,6 @@ module.exports = function(eleventyConfig) {
       if ( process.env.PRODUCTION && outputPath.endsWith(".css") ) {
 				return new CleanCSS({}).minify(content).styles;
 			}
-
       return content;
     });
 	}
@@ -70,9 +68,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("cssmin", function(code) {
 		if ( process.env.PRODUCTION ) {
 			return new CleanCSS({}).minify(code).styles;
-		} else {
-			return code;
 		}
+		return code;
 	});
 
   return {
