@@ -4,9 +4,16 @@ const htmlmin = require("html-minifier");
 //const syntaxHighlightPlugin = require("@11ty/eleventy-plugin-syntaxhighlight");
 //const tocPlugin = require("eleventy-plugin-toc")
 
-const siteConfig = require("./data/siteConfig.js");
+const siteConfig = require("./config/siteConfig.js");
 
 module.exports = function(eleventyConfig) {
+
+	eleventyConfig.setDataDeepMerge(true);
+
+	// Directories to copy directly
+	eleventyConfig.addPassthroughCopy("assets");
+	eleventyConfig.addPassthroughCopy("images");
+	eleventyConfig.addPassthroughCopy("js");
 
   // Markdown formatting and anchor links
 	let markdownIt = require("markdown-it");
@@ -49,6 +56,17 @@ module.exports = function(eleventyConfig) {
     });
   }
 
+	if ( siteConfig.minifyCss ) {
+		eleventyConfig.addTransform("cssmin", function(content, outputPath) {
+      if ( process.env.PRODUCTION && outputPath.endsWith(".css") ) {
+				return new CleanCSS({}).minify(content).styles;
+			}
+
+      return content;
+    });
+	}
+
+	// Inline CSS; use like {{ someInlineCSS | cssmin }}
   eleventyConfig.addFilter("cssmin", function(code) {
 		if ( process.env.PRODUCTION ) {
 			return new CleanCSS({}).minify(code).styles;
